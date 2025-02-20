@@ -8,10 +8,6 @@
   </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Controllers\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\BuberDiner.Application\BuberDiner.Application.csproj" />
       <ProjectReference Include="..\BuberDiner.Contracts\BuberDiner.Contracts.csproj" />
       <ProjectReference Include="..\BuberDiner.Infrastructure\BuberDiner.Infrastructure.csproj" />
