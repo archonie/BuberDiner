@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.Options;
 
-namespace BuberDiner.Api.Errors;
+namespace BuberDiner.Common.Api.Errors;
 
 public class BuberDinerProblemDetailsFactory : ProblemDetailsFactory
 {

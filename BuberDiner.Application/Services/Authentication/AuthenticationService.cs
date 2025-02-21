@@ -46,7 +46,7 @@ public class AuthenticationService : IAuthenticationService
         // 1. Validate the user doesn't exist
         if (_userRepository.GetUserByEmail(email) is not null)
         {
-            throw new Exception("User with given email already exists.");
+            throw new Exception("Email address already exists.");
         }
          
         // 2. Create user (generate unique Id) && Persist to DB
