@@ -1,26 +1,25 @@
+using BuberDiner.Application.Authentication.Common;
 using BuberDiner.Application.Common.Interfaces.Authentication;
 using BuberDiner.Application.Common.Interfaces.Persistence;
-using BuberDiner.Application.Services.Authentication.Common;
 using BuberDiner.Domain.Entities;
+using MediatR;
 
-namespace BuberDiner.Application.Services.Authentication.Commands;
+namespace BuberDiner.Application.Authentication.Commands.Register;
 
-public class AuthenticationCommandService : IAuthenticationCommandService
+public class RegisterCommandHandler: IRequestHandler<RegisterCommand, AuthenticationResult>
 {
-
     private readonly IJwtTokenGenerator _jwtTokenGenerator;
     private readonly IUserRepository _userRepository;
 
-    public AuthenticationCommandService(IJwtTokenGenerator jwtTokenGenerator, IUserRepository userRepository)
+    public RegisterCommandHandler(IUserRepository userRepository, IJwtTokenGenerator jwtTokenGenerator)
     {
-        _jwtTokenGenerator = jwtTokenGenerator;
         _userRepository = userRepository;
+        _jwtTokenGenerator = jwtTokenGenerator;
     }
 
-    public AuthenticationResult Register(string firstName, string lastName, string email, string password)
+    public async Task<AuthenticationResult> Handle(RegisterCommand request, CancellationToken cancellationToken)
     {
-        // 1. Validate the user doesn't exist
-        if (_userRepository.GetUserByEmail(email) is not null)
+        if (_userRepository.GetUserByEmail(request.Email) is not null)
         {
             throw new Exception("Email address already exists.");
         }
@@ -28,10 +27,10 @@ public class AuthenticationCommandService : IAuthenticationCommandService
         // 2. Create user (generate unique Id) && Persist to DB
         var user = new User
         {
-            Email = email,
-            FirstName = firstName,
-            LastName = lastName,
-            Password = password
+            Email = request.Email,
+            FirstName = request.FirstName,
+            LastName = request.LastName,
+            Password = request.Password,
         };
         _userRepository.Add(user);
         // 3. Create JWT Token
@@ -41,6 +40,6 @@ public class AuthenticationCommandService : IAuthenticationCommandService
         return new AuthenticationResult(
             user,
             token
-            );
+        );
     }
 }
