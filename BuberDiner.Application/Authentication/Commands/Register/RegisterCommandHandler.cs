@@ -19,6 +19,7 @@ public class RegisterCommandHandler: IRequestHandler<RegisterCommand, Authentica
 
     public async Task<AuthenticationResult> Handle(RegisterCommand request, CancellationToken cancellationToken)
     {
+        await Task.CompletedTask;
         if (_userRepository.GetUserByEmail(request.Email) is not null)
         {
             throw new Exception("Email address already exists.");
